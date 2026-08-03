@@ -53,7 +53,7 @@ Select a number and the command is placed in your readline buffer ready to edit 
 
 ## Storage
 
-Commands are stored in `~/.config/favs/commands.json`. Edit it directly if you like.
+Commands are stored in `~/.config/favs/commands.toml`. Edit it directly if you like.
 
 ## Key binding
 

@@ -1,7 +1,9 @@
 package store_test
 
 import (
+	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/wstevenson1/favs/internal/store"
@@ -9,7 +11,7 @@ import (
 
 func newTestStore(t *testing.T) *store.Store {
 	t.Helper()
-	return store.NewAt(filepath.Join(t.TempDir(), "commands.json"))
+	return store.NewAt(filepath.Join(t.TempDir(), "commands.toml"))
 }
 
 func TestLoad_EmptyWhenFileAbsent(t *testing.T) {
@@ -101,5 +103,27 @@ func TestFilter_EmptyTagReturnsAll(t *testing.T) {
 	}
 	if len(cmds) != 2 {
 		t.Errorf("expected 2 commands, got %d", len(cmds))
+	}
+}
+
+func TestSave_WritesTOMLFormat(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "commands.toml")
+	s := store.NewAt(path)
+	if _, err := s.Add("echo hello", []string{"foo", "bar"}, "test desc"); err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	content := string(data)
+	if !strings.Contains(content, "[[command]]") {
+		t.Errorf("expected TOML array-of-tables syntax, got:\n%s", content)
+	}
+	if !strings.Contains(content, `command = "echo hello"`) {
+		t.Errorf("expected command field, got:\n%s", content)
+	}
+	if !strings.Contains(content, "tags = [") {
+		t.Errorf("expected tags array, got:\n%s", content)
 	}
 }
