@@ -42,14 +42,10 @@ favs
 ## Picker
 
 ```
-  1  [ssh]   ssh aeneas64-ubuntu  aeneas64 Ubuntu VM
-  2  [git]   git log --oneline --graph --all  Pretty git log
-  3  [sys]   df -h  Disk usage human readable
-
-Select (1-3, q to quit): _
+favs
 ```
 
-Select a number and the command is placed in your readline buffer ready to edit — `{placeholder}` values and all.
+Type to filter (no need to press `/` first), use the arrow keys (or `j`/`k`) to move the highlight, and press Enter to select. The chosen command is placed in your readline buffer ready to edit — `{placeholder}` values and all. `Esc` or `Ctrl+C` quits without selecting anything.
 
 ## Storage
 
